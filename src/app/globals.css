@@ -1,0 +1,314 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* ============================================================
+   NO OFFICE LOCATION — global styles
+   Theme is driven by the `data-theme` attribute (next-themes).
+   shadcn / Base UI tokens are mapped onto the NOL brand palette
+   so primitives inherit the studio look automatically.
+   ============================================================ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+@theme inline {
+  /* ---- type families (wired via next/font in layout.tsx) ---- */
+  --font-display:
+    var(--font-instrument-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-hanken), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", monospace;
+
+  /* ---- brand palette → utilities ---- */
+  --color-sun-core: var(--sun-core);
+  --color-sun-gold: var(--sun-gold);
+  --color-sun-amber: var(--sun-amber);
+  --color-sun-ember: var(--sun-ember);
+  --color-wave-royal: var(--wave-royal);
+  --color-wave-azure: var(--wave-azure);
+  --color-wave-sky: var(--wave-sky);
+  --color-wave-foam: var(--wave-foam);
+
+  /* ---- semantic surfaces / text → utilities ---- */
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-fg-on-accent: var(--fg-on-accent);
+  --color-edge: var(--border-2);
+  --color-hairline: var(--hairline);
+
+  /* ---- brand accent (sunset) → `brand` utilities (kept distinct from
+         shadcn's surface-level `accent` token below) ---- */
+  --color-brand: var(--brand-ink);
+  --color-brand-2: var(--accent-2);
+
+  /* ---- shadcn / Base UI tokens mapped onto the brand ---- */
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--fg);
+  --color-popover: var(--surface-2);
+  --color-popover-foreground: var(--fg);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--fg-on-accent);
+  --color-secondary: var(--surface-2);
+  --color-secondary-foreground: var(--fg);
+  --color-muted: var(--surface-2);
+  --color-muted-foreground: var(--fg-3);
+  --color-accent: var(--surface-3);
+  --color-accent-foreground: var(--fg);
+  --color-destructive: var(--danger);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--brand-ink);
+
+  /* ---- tracking ---- */
+  --tracking-label: 0.18em;
+  --tracking-eyebrow: 0.32em;
+
+  /* ---- radii ---- */
+  --radius-pill: 999px;
+
+  /* ---- shadows ---- */
+  --shadow-card: var(--shadow-card-val);
+  --shadow-glow: var(--shadow-glow-val);
+
+  /* ---- container ---- */
+  --container-site: 1240px;
+}
+
+/* ============================================================
+   TOKENS — brand constants + DARK theme (default canvas)
+   ============================================================ */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* brand: sun (warm) */
+  --sun-core: #ffe01b;
+  --sun-gold: #ffb200;
+  --sun-amber: #ff8a1e;
+  --sun-ember: #f26419;
+  /* brand: ocean (cool) */
+  --wave-royal: #1f44e0;
+  --wave-azure: #2e7df6;
+  --wave-sky: #36c5f0;
+  --wave-foam: #87ecf2;
+
+  /* signature gradients */
+  --grad-sun: linear-gradient(
+    120deg,
+    var(--sun-core) 0%,
+    var(--sun-gold) 40%,
+    var(--sun-amber) 70%,
+    var(--sun-ember) 100%
+  );
+  --grad-ocean: linear-gradient(
+    120deg,
+    var(--wave-foam) 0%,
+    var(--wave-sky) 40%,
+    var(--wave-azure) 75%,
+    var(--wave-royal) 100%
+  );
+  --grad-horizon: linear-gradient(
+    115deg,
+    var(--sun-gold) 0%,
+    var(--sun-amber) 30%,
+    var(--wave-azure) 70%,
+    var(--wave-royal) 100%
+  );
+
+  /* accent (brand) */
+  --accent: var(--sun-amber);
+  --accent-2: var(--sun-gold);
+  --accent-grad: var(--grad-sun);
+  --accent-soft: rgba(255, 138, 30, 0.14);
+
+  --danger: #ff5a5a;
+  --danger-text: #ff8a8a;
+  /* readable brand ink for text/icons/focus (matches accent on the dark canvas) */
+  --brand-ink: var(--sun-amber);
+
+  /* surfaces */
+  --bg: #05080f;
+  --bg-2: #080e1c;
+  --surface: #0c1426;
+  --surface-2: #111e3a;
+  --surface-3: #16284c;
+
+  /* text */
+  --fg: #f1faee;
+  --fg-2: rgba(241, 250, 238, 0.66);
+  --fg-3: rgba(241, 250, 238, 0.56);
+  --fg-on-accent: #0a0f1c;
+
+  /* lines */
+  --border: rgba(135, 236, 242, 0.12);
+  --border-2: rgba(135, 236, 242, 0.22);
+  --hairline: rgba(241, 250, 238, 0.08);
+
+  /* sky / atmosphere */
+  --sky-top: #04060d;
+  --sky-mid: #0a1430;
+  --sky-glow: rgba(255, 138, 30, 0.16);
+  --grid-line: rgba(54, 197, 240, 0.1);
+
+  --shadow-card-val: 0 24px 60px -28px rgba(0, 0, 0, 0.8);
+  --shadow-glow-val: 0 0 60px -10px rgba(255, 138, 30, 0.45);
+
+  --radius: 0.875rem;
+}
+
+/* ============================================================
+   LIGHT theme (daybreak)
+   ============================================================ */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --accent: var(--sun-amber);
+  --accent-2: var(--sun-gold);
+  --accent-grad: var(--grad-sun);
+  --accent-soft: rgba(255, 138, 30, 0.16);
+
+  --danger: #c62828;
+  --danger-text: #c62828;
+  /* darker brand ink for legible text/icons/focus on the light canvas */
+  --brand-ink: #b8560a;
+
+  --bg: #f4faff;
+  --bg-2: #eaf4ff;
+  --surface: #ffffff;
+  --surface-2: #ffffff;
+  --surface-3: #eef5ff;
+
+  --fg: #0a1426;
+  --fg-2: rgba(10, 20, 38, 0.66);
+  --fg-3: rgba(10, 20, 38, 0.62);
+  --fg-on-accent: #0a0f1c;
+
+  --border: rgba(15, 29, 56, 0.12);
+  --border-2: rgba(15, 29, 56, 0.2);
+  --hairline: rgba(15, 29, 56, 0.08);
+
+  --sky-top: #dceeff;
+  --sky-mid: #fff3dc;
+  --sky-glow: rgba(255, 138, 30, 0.22);
+  --grid-line: rgba(31, 68, 224, 0.08);
+
+  --shadow-card-val: 0 24px 50px -30px rgba(31, 68, 224, 0.28);
+  --shadow-glow-val: 0 0 50px -8px rgba(255, 138, 30, 0.4);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Enable theme color transitions only after first paint to avoid a
+     stuck load-time transition (mirrors the prototype's `.ready` gate). */
+  html.theme-ready body {
+    transition:
+      background 0.4s ease,
+      color 0.4s ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--fg-on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand-ink);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* Reusable scroll-reveal primitive (paired with <Reveal/>). */
+@layer components {
+  .nol-reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+      opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .nol-reveal[data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nol-reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}
+
+/* ============================================================
+   KEYFRAMES (consumed via arbitrary `animate-[...]` utilities)
+   ============================================================ */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(-8px);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+@keyframes scrollpulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scaleY(0.6);
+    transform-origin: top;
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="animate-["] {
+    animation: none !important;
+  }
+}
