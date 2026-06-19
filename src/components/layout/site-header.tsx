@@ -48,7 +48,7 @@ export function SiteHeader() {
           "border-hairline bg-[color-mix(in_srgb,var(--bg)_72%,transparent)] backdrop-blur-[16px] backdrop-saturate-[140%]",
       )}
     >
-      <Container className="flex h-[76px] items-center justify-between">
+      <Container className="relative z-50 flex h-[76px] items-center justify-between">
         <Brand />
 
         <nav

@@ -113,3 +113,29 @@ orchestrator → implementer → (unit-tester ∥ design-fidelity)
 
 Invoke a specialist with the Task/Agent tool, e.g. _"Use the security agent to
 review `src/app/api/contact/route.ts`."_
+
+## Loop harness
+
+The agents above are one-shot. `.claude/workflows/loop-until-clean.mjs` closes the
+loop: it fans the read-only specialists out over the diff, **adversarially verifies**
+each finding, delegates the real ones to the implementer, then **re-runs the quality
+gate and repeats until it converges** (gate green + no new findings) or a stop guard
+trips (max rounds, no-progress, low budget).
+
+```
+        ┌──────────────────────── loop ────────────────────────┐
+gate ──▶ review (reviewer∥security∥a11y∥perf∥design) ──▶ verify ──▶ fix ──┐
+  ▲                                                                       │
+  └───────────────────── re-gate ◀───────────────────────────────────────┘
+        stop when: gate green & 0 new findings · or maxRounds · or no progress
+```
+
+Run it via the Workflow tool:
+
+- **Audit (read-only):** `loop-until-clean` with `{ "mode": "report" }` — runs the
+  gate + review + verify and reports confirmed vs. dismissed findings. Edits nothing.
+- **Auto-fix (convergence):** `{ "mode": "fix", "maxRounds": 3 }` — also applies fixes
+  and loops. Run on a clean checkpoint so the diff under review is the work you intend.
+
+Useful args: `gate` (commands, default `["typecheck","lint","test","build"]`),
+`scope` (what to review), `minBudget` (token floor before stopping).

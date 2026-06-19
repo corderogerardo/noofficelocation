@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Turnstile } from "@marsidev/react-turnstile";
 import { Check, Send } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -19,6 +20,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useContactMutation } from "@/hooks/use-contact-mutation";
 import { PROJECT_TYPES } from "@/lib/data/studio";
+import { TURNSTILE_SITE_KEY } from "@/lib/turnstile";
 import { contactSchema, type ContactInput } from "@/lib/validation/contact";
 import { cn } from "@/lib/utils";
 
@@ -40,7 +42,22 @@ export function ContactForm() {
     },
   });
 
-  const onSubmit = handleSubmit((values) => mutation.mutate(values));
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [verifyError, setVerifyError] = useState<string | null>(null);
+  const [startedAt] = useState(() => Date.now());
+
+  const onSubmit = handleSubmit((values, event) => {
+    if (!turnstileToken) {
+      setVerifyError("Please complete the verification below.");
+      return;
+    }
+    setVerifyError(null);
+    const form = event?.target as HTMLFormElement | undefined;
+    const website =
+      (form?.elements.namedItem("website") as HTMLInputElement | null)?.value ??
+      "";
+    mutation.mutate({ ...values, turnstileToken, website, ts: startedAt });
+  });
 
   // Move focus to (and announce) the confirmation when the pitch is accepted.
   const successRef = useRef<HTMLDivElement>(null);
@@ -74,6 +91,22 @@ export function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} noValidate>
+      {/* Honeypot — hidden from people, tempting to bots. Must stay empty. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-[9999px] h-0 w-0 overflow-hidden"
+      >
+        <label htmlFor="nol-website">Website</label>
+        <input
+          id="nol-website"
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          defaultValue=""
+        />
+      </div>
+
       <div className="grid grid-cols-1 gap-[18px] sm:grid-cols-2">
         <Field label="Name" htmlFor="f-name" error={errors.name?.message}>
           <Input
@@ -156,21 +189,34 @@ export function ContactForm() {
         />
       </Field>
 
-      {mutation.isError ? (
+      <div className="mt-[18px]">
+        <Turnstile
+          siteKey={TURNSTILE_SITE_KEY}
+          onSuccess={(token) => {
+            setTurnstileToken(token);
+            setVerifyError(null);
+          }}
+          onExpire={() => setTurnstileToken(null)}
+          onError={() => setTurnstileToken(null)}
+          options={{ theme: "auto", size: "flexible" }}
+        />
+      </div>
+
+      {verifyError || mutation.isError ? (
         <p
           role="alert"
           className="mt-3 font-mono text-xs text-[color:var(--danger-text)]"
         >
-          {mutation.error?.message}
+          {verifyError ?? mutation.error?.message}
         </p>
       ) : null}
 
-      <div className="mt-2 flex flex-wrap items-center gap-4 pt-1.5">
+      <div className="mt-3 flex flex-wrap items-center gap-4 pt-1.5">
         <Button
           type="submit"
           variant="primary"
           size="pill"
-          disabled={mutation.isPending}
+          disabled={mutation.isPending || !turnstileToken}
         >
           <Send /> {mutation.isPending ? "Sending…" : "Send pitch"}
         </Button>

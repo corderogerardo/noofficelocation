@@ -16,7 +16,9 @@ export default defineConfig({
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: `pnpm run build && pnpm exec next start -p ${PORT}`,
+    // Build with Cloudflare's always-passes Turnstile test key so the form's
+    // human check resolves automatically in CI/e2e.
+    command: `NEXT_PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA pnpm run build && pnpm exec next start -p ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,

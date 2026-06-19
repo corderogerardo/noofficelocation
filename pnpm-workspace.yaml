@@ -1,8 +1,10 @@
 # Dependency build scripts are blocked by default (supply-chain safety).
 # Explicit per-package decisions for the deps that ship build scripts:
 allowBuilds:
+  esbuild: true
   msw: false # not used at runtime; service-worker build not needed
   sharp: true # next/image optimization
   unrs-resolver: true # eslint import resolution (native)
+  workerd: true
 minimumReleaseAgeExclude:
   - lucide-react@1.17.0

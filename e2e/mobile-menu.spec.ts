@@ -14,6 +14,16 @@ test.describe("mobile menu", () => {
     await expect(menu).toBeHidden();
   });
 
+  test("closes when the X toggle is tapped", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "Open menu" }).click();
+    await expect(page.locator("#mobile-menu")).toBeVisible();
+
+    // The toggle must stay above the overlay so it can be tapped to close.
+    await page.getByRole("button", { name: "Close menu" }).click();
+    await expect(page.locator("#mobile-menu")).toBeHidden();
+  });
+
   test("closes on Escape", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Open menu" }).click();

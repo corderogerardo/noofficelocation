@@ -7,7 +7,10 @@ test.describe("home page", () => {
       if (msg.type() !== "error") return;
       const text = msg.text();
       // Ignore headless WebGL warnings — the hero degrades gracefully.
-      if (/webgl|three|context lost/i.test(text)) return;
+      if (
+        /webgl|three|context lost|turnstile|challenges\.cloudflare/i.test(text)
+      )
+        return;
       consoleErrors.push(text);
     });
 

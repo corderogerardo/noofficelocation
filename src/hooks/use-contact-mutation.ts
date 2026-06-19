@@ -4,12 +4,24 @@ import { useMutation } from "@tanstack/react-query";
 
 import type { ContactInput } from "@/lib/validation/contact";
 
+/** Full payload posted to the contact endpoint (content + anti-abuse fields). */
+export interface ContactSubmission extends ContactInput {
+  /** Cloudflare Turnstile token proving the submitter is human. */
+  turnstileToken: string;
+  /** Honeypot — must stay empty; bots tend to fill it. */
+  website: string;
+  /** Client render timestamp (ms) used for a min-time-to-submit check. */
+  ts: number;
+}
+
 interface ContactResponse {
   ok: boolean;
   error?: string;
 }
 
-async function submitContact(input: ContactInput): Promise<ContactResponse> {
+async function submitContact(
+  input: ContactSubmission,
+): Promise<ContactResponse> {
   const res = await fetch("/api/contact", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
