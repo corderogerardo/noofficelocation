@@ -5,6 +5,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ContactForm } from "@/components/sections/contact-form";
 import { renderWithProviders } from "@/test/utils";
 
+// Turnstile requires a real browser; mock it to immediately yield a token.
+vi.mock("@marsidev/react-turnstile", () => ({
+  Turnstile: ({ onSuccess }: { onSuccess?: (token: string) => void }) => {
+    queueMicrotask(() => onSuccess?.("test-token"));
+    return null;
+  },
+}));
+
 function mockFetchOk() {
   return vi.spyOn(globalThis, "fetch").mockResolvedValue({
     ok: true,

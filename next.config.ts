@@ -2,22 +2,25 @@ import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV !== "production";
 
+const TURNSTILE = "https://challenges.cloudflare.com";
+
 /**
  * Security response headers. CSP allows inline styles (React `style={{…}}` and
- * the gradient tokens) and inline scripts (Next's hydration bootstrap). The
- * Three.js hero is plain WebGL on a <canvas> with no external assets.
+ * the gradient tokens) and inline scripts (Next's hydration bootstrap), plus
+ * Cloudflare Turnstile (script + iframe) for the contact form's bot check.
  *
  * In development, Next's dev runtime (React dev build + Turbopack/HMR) requires
- * `'unsafe-eval'` and a WebSocket connection — these are added for dev only so
- * production stays strict (React never uses eval in production).
+ * `'unsafe-eval'` and a WebSocket connection — added for dev only so production
+ * stays strict (React never uses eval in production).
  */
 const scriptSrc = [
   "'self'",
   "'unsafe-inline'",
+  TURNSTILE,
   ...(isDev ? ["'unsafe-eval'"] : []),
 ];
 
-const connectSrc = ["'self'", ...(isDev ? ["ws:", "wss:"] : [])];
+const connectSrc = ["'self'", TURNSTILE, ...(isDev ? ["ws:", "wss:"] : [])];
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -26,6 +29,7 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
   "font-src 'self'",
+  `frame-src ${TURNSTILE}`,
   `connect-src ${connectSrc.join(" ")}`,
   "frame-ancestors 'none'",
   "form-action 'self'",

@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "noofficelocation",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets",
+  },
+  "vars": {
+    // Interim: Resend send-only key + unverified domain can only deliver to the
+    // Resend account owner. After verifying noofficelocation.com in Resend, set
+    // CONTACT_TO=gerardo@noofficelocation.com and CONTACT_FROM to a domain sender.
+    "CONTACT_TO": "cordero.gerard@gmail.com",
+    "CONTACT_FROM": "No Office Location <onboarding@resend.dev>",
+  },
+  "observability": {
+    "enabled": true,
+  },
+}
