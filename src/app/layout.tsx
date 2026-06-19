@@ -86,7 +86,7 @@ export default function RootLayout({
         jetbrainsMono.variable,
       )}
     >
-      <body className="min-h-dvh">
+      <body className="min-h-dvh" suppressHydrationWarning>
         <noscript>
           {/* Progressive enhancement: reveal-on-scroll content stays visible without JS. */}
           <style>{`.nol-reveal{opacity:1 !important;transform:none !important}`}</style>

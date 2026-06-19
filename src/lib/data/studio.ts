@@ -102,7 +102,7 @@ export const PROCESS_STEPS: ProcessStep[] = [
 ];
 
 export const CONTACT_CHANNELS: ContactChannel[] = [
-  { icon: Mail, label: "Email", value: "hello@noofficelocation.com" },
+  { icon: Mail, label: "Email", value: "sales@noofficelocation.com" },
   { icon: Globe, label: "Web", value: "noofficelocation.com" },
   { icon: Clock, label: "Hours", value: "Always-on · async across timezones" },
 ];

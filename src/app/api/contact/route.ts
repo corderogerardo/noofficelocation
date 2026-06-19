@@ -165,7 +165,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const to = env.CONTACT_TO || "gerardo@noofficelocation.com";
+  const to = env.CONTACT_TO || "sales@noofficelocation.com";
   const from = env.CONTACT_FROM || "No Office Location <onboarding@resend.dev>";
   // Strip CR/LF from header-bound fields (defense-in-depth vs header injection).
   const safeName = data.name.replace(/[\r\n]+/g, " ").slice(0, 100);

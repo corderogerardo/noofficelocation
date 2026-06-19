@@ -40,57 +40,59 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   return (
-    <header
-      id="nav"
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b border-transparent transition-[background-color,border-color,backdrop-filter] duration-300",
-        scrolled &&
-          "border-hairline bg-[color-mix(in_srgb,var(--bg)_72%,transparent)] backdrop-blur-[16px] backdrop-saturate-[140%]",
-      )}
-    >
-      <Container className="relative z-50 flex h-[76px] items-center justify-between">
-        <Brand />
+    <>
+      <header
+        id="nav"
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 border-b border-transparent transition-[background-color,border-color,backdrop-filter] duration-300",
+          scrolled &&
+            "border-hairline bg-[color-mix(in_srgb,var(--bg)_72%,transparent)] backdrop-blur-[16px] backdrop-saturate-[140%]",
+        )}
+      >
+        <Container className="relative z-50 flex h-[76px] items-center justify-between">
+          <Brand />
 
-        <nav
-          aria-label="Primary"
-          className="hidden items-center gap-1.5 lg:flex"
-        >
-          {NAV_LINKS.map((link) => (
+          <nav
+            aria-label="Primary"
+            className="hidden items-center gap-1.5 lg:flex"
+          >
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="rounded-pill text-fg-2 hover:bg-surface-3 hover:text-fg px-3.5 py-2.5 text-sm font-semibold transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2.5">
+            <ThemeToggle />
             <Link
-              key={link.label}
-              href={link.href}
-              className="rounded-pill text-fg-2 hover:bg-surface-3 hover:text-fg px-3.5 py-2.5 text-sm font-semibold transition-colors"
+              href="#contact"
+              className={cn(
+                buttonVariants({ variant: "primary", size: "pillSm" }),
+                "hidden sm:inline-flex",
+              )}
             >
-              {link.label}
+              Start a project
             </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2.5">
-          <ThemeToggle />
-          <Link
-            href="#contact"
-            className={cn(
-              buttonVariants({ variant: "primary", size: "pillSm" }),
-              "hidden sm:inline-flex",
-            )}
-          >
-            Start a project
-          </Link>
-          <IconButton
-            id="nav-toggle"
-            className="lg:hidden"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            {menuOpen ? <X /> : <Menu />}
-          </IconButton>
-        </div>
-      </Container>
+            <IconButton
+              id="nav-toggle"
+              className="lg:hidden"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              {menuOpen ? <X /> : <Menu />}
+            </IconButton>
+          </div>
+        </Container>
+      </header>
 
       <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
-    </header>
+    </>
   );
 }

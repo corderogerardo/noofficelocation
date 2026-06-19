@@ -37,7 +37,7 @@ export const FOOTER_SECTIONS: { title: string; links: NavLink[] }[] = [
     title: "Connect",
     links: [
       { href: "#contact", label: "Contact" },
-      { href: "mailto:hello@noofficelocation.com", label: "Email" },
+      { href: "mailto:sales@noofficelocation.com", label: "Email" },
       { href: "#", label: "LinkedIn" },
       { href: "#", label: "Discord" },
     ],
