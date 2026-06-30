@@ -40,13 +40,14 @@ export interface ServiceCard {
 
 export interface Game {
   id: string;
-  cover: 1 | 2 | 3 | 4 | 5;
+  cover: 1 | 2 | 3 | 4 | 5 | 6;
   spanClass: string;
   tall?: boolean;
   tag: string;
   title: string;
   body: string;
   meta: string[];
+  links?: { label: string; href: string }[];
 }
 
 export interface ProcessStep {

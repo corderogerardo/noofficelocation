@@ -12,8 +12,8 @@ export function Showcase() {
         <Reveal>
           <SectionHeading
             eyebrow="Selected work"
-            title="Worlds we've shipped."
-            lead="A sample of original games and client titles. (Placeholder covers — drop in real art and trailers whenever you're ready.)"
+            title="What we're building."
+            lead="Our flagship product, live today — more original titles join this list as they ship."
           />
         </Reveal>
 

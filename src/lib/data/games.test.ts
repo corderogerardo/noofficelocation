@@ -12,10 +12,10 @@ describe("GAMES data", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it("uses cover indices within 1..5", () => {
+  it("uses cover indices within 1..6", () => {
     for (const game of GAMES) {
       expect(game.cover).toBeGreaterThanOrEqual(1);
-      expect(game.cover).toBeLessThanOrEqual(5);
+      expect(game.cover).toBeLessThanOrEqual(6);
     }
   });
 
