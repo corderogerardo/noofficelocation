@@ -1,3 +1,5 @@
+import { ArrowUpRight } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import type { Game } from "@/types/content";
 
@@ -8,6 +10,8 @@ const COVER_BG: Record<Game["cover"], string> = {
   3: "radial-gradient(110% 90% at 85% 80%, var(--wave-azure), transparent 55%), linear-gradient(160deg, #0a2440 0%, #133a8a 60%, #07101f 100%)",
   4: "radial-gradient(110% 90% at 20% 20%, var(--sun-amber), transparent 50%), linear-gradient(160deg, #36210b 0%, #144b6b 70%, #07101f 100%)",
   5: "radial-gradient(120% 100% at 50% 100%, var(--wave-sky), transparent 55%), linear-gradient(160deg, #07294a 0%, #0c1b3a 60%, #07101f 100%)",
+  // Stoic Piggy brand: imperial red + non-photo teal on Berkeley navy.
+  6: "radial-gradient(110% 90% at 80% 15%, #E63946, transparent 50%), radial-gradient(90% 70% at 15% 85%, #A8DADC, transparent 45%), linear-gradient(160deg, #1D3557 0%, #13243B 70%, #07101f 100%)",
 };
 
 /** A single showcase title card. Fills its grid cell (sized by the Showcase). */
@@ -53,6 +57,20 @@ export function GameCard({ game }: { game: Game }) {
           <span key={item}>{item}</span>
         ))}
       </div>
+      {game.links && game.links.length > 0 && (
+        <div className="relative z-[2] mt-4 flex flex-wrap gap-2.5">
+          {game.links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="rounded-pill border-edge text-fg hover:border-brand hover:text-brand inline-flex items-center gap-1 border bg-black/30 px-3.5 py-1.5 font-mono text-[11px] tracking-[0.08em] uppercase backdrop-blur-[6px] transition-colors"
+            >
+              {link.label}
+              <ArrowUpRight className="size-3" />
+            </a>
+          ))}
+        </div>
+      )}
     </article>
   );
 }
