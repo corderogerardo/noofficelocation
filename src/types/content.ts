@@ -41,6 +41,10 @@ export interface ServiceCard {
 export interface Game {
   id: string;
   cover: 1 | 2 | 3 | 4 | 5 | 6;
+  /** Optional real screenshot; overrides the gradient `cover` when set. Path under /public. */
+  image?: string;
+  /** Alt text for `image` (required when `image` is set). */
+  imageAlt?: string;
   spanClass: string;
   tall?: boolean;
   tag: string;

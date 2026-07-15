@@ -13,7 +13,7 @@ export function Showcase() {
           <SectionHeading
             eyebrow="Selected work"
             title="What we're building."
-            lead="Our flagship product, live today — more original titles join this list as they ship."
+            lead="Games first — plus the web, mobile, and backend products we ship alongside them. Some are live, some are in the workshop, and a few are still on the whiteboard."
           />
         </Reveal>
 
