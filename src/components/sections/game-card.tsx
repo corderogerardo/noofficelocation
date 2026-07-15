@@ -58,13 +58,13 @@ function Links({ links }: { links: NonNullable<Game["links"]> }) {
  * the capture reads on its own, and the copy lives on a solid panel below —
  * no text overlapping the screenshot's own UI.
  */
-function ImageCard({ game }: { game: Game }) {
+function ImageCard({ game }: { game: Extract<Game, { image: string }> }) {
   return (
     <article className={OUTER}>
       <div className="bg-bg-2 relative h-[210px] w-full shrink-0 overflow-hidden">
         <Image
-          src={game.image!}
-          alt={game.imageAlt ?? ""}
+          src={game.image}
+          alt={game.imageAlt}
           fill
           sizes="(min-width: 1024px) 50vw, 100vw"
           className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"

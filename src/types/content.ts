@@ -38,13 +38,9 @@ export interface ServiceCard {
   body: string;
 }
 
-export interface Game {
+interface GameBase {
   id: string;
   cover: 1 | 2 | 3 | 4 | 5 | 6;
-  /** Optional real screenshot; overrides the gradient `cover` when set. Path under /public. */
-  image?: string;
-  /** Alt text for `image` (required when `image` is set). */
-  imageAlt?: string;
   spanClass: string;
   tall?: boolean;
   tag: string;
@@ -53,6 +49,18 @@ export interface Game {
   meta: string[];
   links?: { label: string; href: string }[];
 }
+
+/**
+ * A showcase entry. Either a gradient-cover card (no screenshot) or a real
+ * screenshot card — and the union makes `imageAlt` mandatory whenever `image`
+ * is set, so a content-bearing capture can never ship without alt text.
+ * `image` paths are under /public and override the gradient `cover`.
+ */
+export type Game = GameBase &
+  (
+    | { image?: undefined; imageAlt?: undefined }
+    | { image: string; imageAlt: string }
+  );
 
 export interface ProcessStep {
   number: string;
