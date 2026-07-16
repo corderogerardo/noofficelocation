@@ -43,6 +43,8 @@ function Links({ links }: { links: NonNullable<Game["links"]> }) {
         <a
           key={link.href}
           href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
           className="rounded-pill border-edge text-fg hover:border-brand hover:text-brand inline-flex items-center gap-1 border px-3.5 py-1.5 font-mono text-[11px] tracking-[0.08em] uppercase transition-colors"
         >
           {link.label}
@@ -72,7 +74,9 @@ function ImageCard({ game }: { game: Extract<Game, { image: string }> }) {
       </div>
       <div className="border-border flex flex-1 flex-col border-t p-[26px]">
         <Tag>{game.tag}</Tag>
-        <h3 className="font-display text-fg mt-3.5 text-[30px]">{game.title}</h3>
+        <h3 className="font-display text-fg mt-3.5 text-[30px]">
+          {game.title}
+        </h3>
         <p className="text-fg-2 mt-2 text-[14px]">{game.body}</p>
         <div className="mt-auto flex flex-col gap-4 pt-5">
           <Meta items={game.meta} />

@@ -12,8 +12,11 @@ export const GAMES: Game[] = [
     body: "Turns household chores into money lessons. Parents assign tasks, kids complete them and earn — and learn to save and spend with calm, guided by a stoic piggy mascot.",
     meta: ["NEXT.JS · NESTJS · EXPO", "WEB LIVE · MOBILE IN DEV"],
     links: [
-      { label: "Landing", href: "https://stoic-piggy-landing.pages.dev" },
-      { label: "Parents app", href: "https://stoic-piggy-parents.pages.dev" },
+      { label: "Landing", href: "https://stoic-piggy.noofficelocation.com" },
+      {
+        label: "Parents app",
+        href: "https://stoic-piggy-parents.noofficelocation.com",
+      },
     ],
   },
   {
@@ -25,7 +28,9 @@ export const GAMES: Game[] = [
     title: "Torres del Sisal",
     body: "First-person horror steeped in Venezuelan llano folklore. You wake possessed in a cursed tower whose only law is siempre hacia arriba — always upward. Recover the mementos of who you were, reach the rooftop, and resist the jump until rescue arrives.",
     meta: ["THREE.JS · WEB AUDIO · NO BUILD STEP", "LIVE"],
-    links: [{ label: "Play", href: "https://torresdelsisal.noofficelocation.com" }],
+    links: [
+      { label: "Play", href: "https://torres-del-sisal.noofficelocation.com" },
+    ],
   },
   {
     id: "venezuela-survivor",
